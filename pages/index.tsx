@@ -1,9 +1,17 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link';
+import {sanityClient, urlFor} from '../sanity';
+import {Post} from '../typings';
 import Header from '../components/Header';
 
-const Home: NextPage = () => {
+interface Props {
+  posts: [Post];
+}
+
+const Home = ({posts}: Props) => {
+  console.log('posts: ', posts);
 
   return (
     <div className=" max-w-7xl mx-auto">
@@ -29,9 +37,41 @@ const Home: NextPage = () => {
       </div>
 
       {/* Posts */}
+      <div>
+        {posts.map(post => (
+          <Link key={post._id} href={`/post/${post.slug.current}`}>
+            <div>
+              <img src={urlFor(post.mainImage).url()!} alt=""/>
+            </div>
+          </Link>
+        ))}
+      </div>
       
     </div>
   )
 }
+
+// Server Side Rendering
+export const getServerSideProps = async () => {
+  const query = `
+  *[_type == 'post'] {
+    _id,
+    title,
+    author -> {
+    name,
+    image
+    },
+   description,
+   mainImage,
+   slug,
+  }`;
+
+  const posts = await sanityClient.fetch(query);
+  return {
+    props: {
+      posts,
+    }
+  }
+};
 
 export default Home
