@@ -6,7 +6,7 @@ import Header from '../components/Header';
 const Home: NextPage = () => {
 
   return (
-    <div className="">
+    <div className=" max-w-7xl mx-auto">
       <Head>
         <title>Medium Blog</title>
         <link rel="icon" href="/favicon.ico" />
@@ -27,6 +27,9 @@ const Home: NextPage = () => {
 
       <img className='hidden md:inline-flex h-40 lg:h-full' src="https://accountabilitylab.org/wp-content/uploads/2020/03/Medium-logo.png" />
       </div>
+
+      {/* Posts */}
+      
     </div>
   )
 }
