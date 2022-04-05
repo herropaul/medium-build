@@ -5,6 +5,7 @@ import Link from 'next/link';
 import {sanityClient, urlFor} from '../sanity';
 import {Post} from '../typings';
 import Header from '../components/Header';
+import { url } from 'inspector';
 
 interface Props {
   posts: [Post];
@@ -37,11 +38,18 @@ const Home = ({posts}: Props) => {
       </div>
 
       {/* Posts */}
-      <div>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 p-2 lg:p-6'>
         {posts.map(post => (
           <Link key={post._id} href={`/post/${post.slug.current}`}>
-            <div>
-              <img src={urlFor(post.mainImage).url()!} alt=""/>
+            <div className='border rounded-lg group cursor-pointer overflow-hidden'>
+              <img className=' h-60 w-full object-cover group-hover:scale-105 transition-transform ease-in-out duration-200' src={urlFor(post.mainImage).url()!} alt=""/>
+              <div className='flex justify-between p-4 bg-white'>
+                <div className=' px-2'>
+                  <p className='font-bold text-lg'>{post.title}</p>
+                  <p className='text-xs'>{post.description} by {post.author.name}</p>
+                </div>
+                <img className=' h-16 w-16 rounded-full' src={urlFor(post.author.image).url()!} alt=""/>
+              </div>
             </div>
           </Link>
         ))}
