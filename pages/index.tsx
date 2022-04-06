@@ -12,8 +12,6 @@ interface Props {
 }
 
 const Home = ({posts}: Props) => {
-  console.log('posts: ', posts);
-
   return (
     <div className=" max-w-7xl mx-auto">
       <Head>
@@ -44,7 +42,7 @@ const Home = ({posts}: Props) => {
             <div className='border rounded-lg group cursor-pointer overflow-hidden'>
               <img className=' h-60 w-full object-cover group-hover:scale-105 transition-transform ease-in-out duration-200' src={urlFor(post.mainImage).url()!} alt=""/>
               <div className='flex justify-between p-4 bg-white'>
-                <div className=' px-2'>
+                <div className='px-2'>
                   <p className='font-bold text-lg'>{post.title}</p>
                   <p className='text-xs'>{post.description} by {post.author.name}</p>
                 </div>
