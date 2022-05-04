@@ -19,6 +19,16 @@ interface Props {
 
 function Post ({post}: Props) {
     const {register, handleSubmit, formState: {errors}} = useForm<IFormInput>();
+    const onSubmit: SubmitHandler<IFormInput> = (data) => {
+        fetch('/api/createComment', {
+            method: 'POST',
+            body: JSON.stringify(data),
+        }).then(() => {
+            console.log("Data: ", data);
+        }).catch(err => {
+            console.log(err);
+        });
+    };
     return(
         <main>
             <Header />
@@ -61,7 +71,7 @@ function Post ({post}: Props) {
 
             <hr className=' max-w-lg my-5 mx-auto border border-yellow-300'/>
 
-            <form className='flex flex-col p-5 mb-10 max-w-xl mx-auto'>
+            <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col p-5 mb-10 max-w-xl mx-auto'>
                 <h4 className=' text-3xl font-bold'>Leave a comment below!</h4>
                 <hr className='py-3 mt-2'/>
                 <input
@@ -76,7 +86,7 @@ function Post ({post}: Props) {
                 </label>
                 <label className=' block mb-5'>
                     <span className=' text-gray-600'>Email</span>
-                    <input {...register("email", {required: true})} className=' shadow border rounded px-3 py-2 form-input mt-1 block w-full ring-yellow-500 focus:ring outline-none' placeholder='something@gmail.com' type='text'/>
+                    <input {...register("email", {required: true})} className=' shadow border rounded px-3 py-2 form-input mt-1 block w-full ring-yellow-500 focus:ring outline-none' placeholder='something@gmail.com' type='email'/>
                 </label>
                 <label className=' block mb-5'>
                     <span className=' text-gray-600'>Comment</span>
