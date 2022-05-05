@@ -4,6 +4,7 @@ import Header from '../../components/Header';
 import {Post} from '../../typings';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import PortableText from 'react-portable-text';
+import {useState} from 'react';
 
 interface IFormInput {
     _id: string;
@@ -18,6 +19,11 @@ interface Props {
 
 
 function Post ({post}: Props) {
+
+    const [submitted, setSubmitted] = useState(false);
+
+    console.log('Post: ', post);
+
     const {register, handleSubmit, formState: {errors}} = useForm<IFormInput>();
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
         fetch('/api/createComment', {
@@ -25,8 +31,10 @@ function Post ({post}: Props) {
             body: JSON.stringify(data),
         }).then(() => {
             console.log("Data: ", data);
+            setSubmitted(true);
         }).catch(err => {
             console.log(err);
+            setSubmitted(false);
         });
     };
     return(
@@ -70,8 +78,15 @@ function Post ({post}: Props) {
             </article>
 
             <hr className=' max-w-lg my-5 mx-auto border border-yellow-300'/>
-
-            <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col p-5 mb-10 max-w-xl mx-auto'>
+            
+            {/* If form submitted, show diff page, else, we show them the form */}
+            {submitted ? 
+            <div className='flex flex-col p-10 my-10 bg-yellow-500 text-white max-w-2xl mx-auto'>
+                <h3 className=' text-3xl font-bold'>Thank you for submitting your comment!</h3>
+                <p>Once it has been approved, it will appear below :)</p>
+            </div>
+            : 
+            (<form onSubmit={handleSubmit(onSubmit)} className='flex flex-col p-5 mb-10 max-w-xl mx-auto'>
                 <h4 className=' text-3xl font-bold'>Leave a comment below!</h4>
                 <hr className='py-3 mt-2'/>
                 <input
@@ -100,7 +115,22 @@ function Post ({post}: Props) {
                     {errors.comment && <p className='text-red-500'>Comment is required</p>}
                 </div>
                 <input type="submit" className=' shadow bg-yellow-500 hover:bg-yellow-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 rounded curser-pointer'/>
-            </form>
+            </form>)
+            }
+            {/* Comments */}
+            <div className='flex flex-col p-10 my-10 max-w-2xl mx-auto shadow shadow-yellow-400 space-y-2'>
+                <h3 className=' text-4xl'>Comments</h3>
+                <hr className=' pb-4'/>
+
+                {post.comments.map(comment => (
+                    <div key={comment._id}>
+                        <p>
+                            <span className=' text-yellow-500'>{comment.name}</span> : {comment.comment}
+                        </p>
+                    </div>
+                ))}
+                
+            </div>
         </main>
     )
 }
