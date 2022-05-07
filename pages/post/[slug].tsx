@@ -22,8 +22,6 @@ function Post ({post}: Props) {
 
     const [submitted, setSubmitted] = useState(false);
 
-    console.log('Post: ', post);
-
     const {register, handleSubmit, formState: {errors}} = useForm<IFormInput>();
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
         fetch('/api/createComment', {
@@ -196,7 +194,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
         props: {
             post,
         },
-        revalidate: 60,
+        revalidate: 10,
     }
 
 }
