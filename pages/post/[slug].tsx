@@ -5,6 +5,7 @@ import {Post} from '../../typings';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import PortableText from 'react-portable-text';
 import {useState} from 'react';
+import Head from 'next/head';
 
 interface IFormInput {
     _id: string;
@@ -37,6 +38,9 @@ function Post ({post}: Props) {
     };
     return(
         <main>
+            <Head>
+                <title>{post.title}</title>
+            </Head>
             <Header />
             <img className='w-full h-44 object-cover'
             src={urlFor(post.mainImage).url()!} alt=""/>
