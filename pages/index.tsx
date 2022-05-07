@@ -44,7 +44,7 @@ const Home = ({posts}: Props) => {
               <div className='flex justify-between p-4 bg-white'>
                 <div className='px-2'>
                   <p className='font-bold text-lg'>{post.title}</p>
-                  <p className='text-xs'>{post.description} by {post.author.name}</p>
+                  <p className='text-xs'>{post.description} by <span className=' text-green-600 font-bold'>{post.author.name}</span></p>
                 </div>
                 <img className=' h-16 w-16 rounded-full' src={urlFor(post.author.image).url()!} alt=""/>
               </div>
