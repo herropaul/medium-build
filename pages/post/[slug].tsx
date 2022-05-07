@@ -107,7 +107,7 @@ function Post ({post}: Props) {
                 </label>
                 <label className=' block mb-5'>
                     <span className=' text-gray-600'>Comment</span>
-                    <textarea {...register("comment", {required: true})} className='shadow border rounded px-3 py-3 form-textarea mt-1 block w-full ring-yellow-500 focus:ring outline-none' placeholder='Start commenting!' rows={8}/>
+                    <textarea {...register("comment", {required: true})} required maxLength={250} className='shadow border rounded px-3 py-3 form-textarea mt-1 block w-full ring-yellow-500 focus:ring outline-none' placeholder='Start commenting!' rows={8}/>
                 </label>
 
                 {/* Errors will return when field validations fail */}
