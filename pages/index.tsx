@@ -12,6 +12,10 @@ interface Props {
 }
 
 const Home = ({posts}: Props) => {
+  // Sort posts by date
+  {posts.sort((a, b) => {
+    return new Date(b._createdAt).getTime() - new Date(a._createdAt).getTime();
+  })};
   return (
     <div className=" max-w-7xl mx-auto">
       <Head>
@@ -63,6 +67,7 @@ export const getServerSideProps = async () => {
   *[_type == 'post'] {
     _id,
     title,
+    _createdAt,
     author -> {
     name,
     image
